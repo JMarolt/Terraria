@@ -17,7 +17,7 @@ public class Panel extends JPanel{
 	public void paintComponent(Graphics g) {
 		tex.draw(g);
 		if(i < 1000) {
-			tex.rotate(Math.PI/30.0, 1000, x, y);
+			tex.rotate(Math.PI/30.0);
 			i++;
 		}
 		g.setColor(Color.black);
@@ -26,7 +26,6 @@ public class Panel extends JPanel{
 		y++;
 		tex.setX(x);
 		tex.setY(y);
-		System.out.println(x);
 	}
 
 }

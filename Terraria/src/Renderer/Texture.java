@@ -29,6 +29,7 @@ public class Texture {
 		this.x = x;
 		this.y = y;
 		this.image = createImage(this.fileName);
+		this.image = resize(this.image, width, height);
 		at = AffineTransform.getTranslateInstance(x, y);
 	}
 	
@@ -51,27 +52,23 @@ public class Texture {
 		return image;
 	}
 	
-//	public BufferedImage resize(BufferedImage image, int width, int height) {
-//		Image tmp = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-//		BufferedImage dimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-//		Graphics2D g2d = dimg.createGraphics();
-//		
-//		g2d.drawImage(tmp, 0, 0, null);
-//		g2d.dispose();
-//		return dimg;
-//	}
+	public BufferedImage resize(BufferedImage image, int width, int height) {
+		Image tmp = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		BufferedImage dimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2d = dimg.createGraphics();
+		
+		g2d.drawImage(tmp, 0, 0, null);
+		g2d.dispose();
+		return dimg;
+	}
 	
-	public void rotate(double radians, long ms, int x, int y) {
-		at = AffineTransform.getTranslateInstance(x, y);
+	public void rotate(double radians) {
 		this.radians += radians;
-		//at.rotate(this.radians, x + (width/2), y + (height/2));
-		System.out.println(this.radians);
 	}
 	
 	public void draw(Graphics g) {
 		at = AffineTransform.getTranslateInstance(x, y);
-		at.scale((double)width/defaultWidth, (double)height/defaultHeight);
-		at.rotate(this.radians, x + (width/2), y + (height/2));
+		at.rotate(this.radians, width/2, height/2);
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.drawImage(image, at, null);
 	}
