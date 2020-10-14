@@ -1,5 +1,6 @@
 package Renderer;
 
+import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -19,6 +20,7 @@ public class Texture {
 	private int width, height;
 	private double radians;
 	private int x, y;
+	private float opacity = 1.0f;
 	private AffineTransform at;
 	private double defaultWidth, defaultHeight;
 	
@@ -53,13 +55,16 @@ public class Texture {
 	}
 	
 	public BufferedImage resize(BufferedImage image, int width, int height) {
-		Image tmp = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		Image tmp = image.getScaledInstance(width, height, Image.SCALE_FAST);
 		BufferedImage dimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2d = dimg.createGraphics();
-		
+		Graphics2D g2d = dimg.createGraphics();		
 		g2d.drawImage(tmp, 0, 0, null);
 		g2d.dispose();
 		return dimg;
+	}
+	
+	public void setOpacity(float opacity) {
+		this.opacity = opacity;
 	}
 	
 	public void rotate(double radians) {
@@ -68,8 +73,9 @@ public class Texture {
 	
 	public void draw(Graphics g) {
 		at = AffineTransform.getTranslateInstance(x, y);
-		at.rotate(this.radians, width/2, height/2);
+		//at.rotate(this.radians, width/2, height/2);		
 		Graphics2D g2d = (Graphics2D)g;
+		//g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 		g2d.drawImage(image, at, null);
 	}
 
