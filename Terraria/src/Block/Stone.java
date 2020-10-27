@@ -8,7 +8,7 @@ public class Stone extends Block{
 	public Stone(Tile tile) {
 		super(tile);
 		this.setTile(tile);
-		this.setTexture(new Texture("src/renderer/ballzlogo.jpg", tile.getX(), tile.getY(), 16, 16));
+		this.setTexture(new Texture("src/renderer/stone.png", tile.getX(), tile.getY()));
 	}
 	
 }

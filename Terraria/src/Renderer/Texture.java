@@ -8,10 +8,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
-
-import Client.Terraria;
 
 public class Texture {
 
@@ -21,8 +20,10 @@ public class Texture {
 	private double radians;
 	private int x, y;
 	private float opacity = 1.0f;
-	private AffineTransform at;
+	private AffineTransform at = AffineTransform.getTranslateInstance(x, y);
 	private double defaultWidth, defaultHeight;
+	
+	public static HashMap<Integer, Texture> textures = new HashMap<Integer, Texture>();
 	
 	public Texture(String fileName, int x, int y, int width, int height) {
 		this.fileName = fileName;
@@ -43,6 +44,18 @@ public class Texture {
 		at = AffineTransform.getTranslateInstance(x, y);
 	}
 	
+	public Texture(String fileName) {
+		this.fileName = fileName;
+		this.image = createImage(this.fileName);
+		at = AffineTransform.getTranslateInstance(x, y);
+	}
+	
+	public static void createTextures() {
+		textures.put(0, new Texture("src/renderer/stone.png"));
+		textures.put(1, new Texture("src/renderer/dirt.png"));
+		textures.put(2, new Texture("src/renderer/air.png"));
+	}
+	
 	private BufferedImage createImage(String fileName) {
 		try {
 			this.image = ImageIO.read(new File(fileName));
@@ -52,6 +65,16 @@ public class Texture {
 			e.printStackTrace();
 		}
 		return image;
+	}
+	
+	public static void loadTextures(Graphics g) {
+		Graphics2D g2d = (Graphics2D)g;
+		if(!Panel.texturesLoaded) {
+			for(int i = 0; i < textures.size(); i++) {
+				g2d.drawImage(textures.get(i).getImage(), 2000, 1300, null);
+			}
+			Panel.texturesLoaded = true;
+		}
 	}
 	
 	public BufferedImage resize(BufferedImage image, int width, int height) {
@@ -72,10 +95,9 @@ public class Texture {
 	}
 	
 	public void draw(Graphics g) {
-		at = AffineTransform.getTranslateInstance(x, y);
 		//at.rotate(this.radians, width/2, height/2);		
 		Graphics2D g2d = (Graphics2D)g;
-		//g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 		g2d.drawImage(image, at, null);
 	}
 
@@ -124,6 +146,7 @@ public class Texture {
 	}
 
 	public void setX(int x) {
+		at.translate(x, 0);
 		this.x = x;
 	}
 
@@ -132,7 +155,8 @@ public class Texture {
 	}
 
 	public void setY(int y) {
-		this.y = y;
+		at.translate(0, y);
+		this.y = this.y + y;
 	}
 
 	public AffineTransform getAt() {
@@ -157,5 +181,9 @@ public class Texture {
 
 	public void setDefaultHeight(double defaultHeight) {
 		this.defaultHeight = defaultHeight;
+	}
+
+	public float getOpacity() {
+		return opacity;
 	}
 }

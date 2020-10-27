@@ -13,6 +13,7 @@ public class Block {
 	private float lightness;
 	private float opacity;
 	private boolean isMinable;
+	private boolean isAir;
 	
 	public Block(Tile tile) {
 		this.tile = tile;
@@ -68,6 +69,14 @@ public class Block {
 
 	public void setMinable(boolean isMinable) {
 		this.isMinable = isMinable;
+	}
+
+	public boolean isAir() {
+		return isAir;
+	}
+
+	public void setAir(boolean isAir) {
+		this.isAir = isAir;
 	}
 	
 }
