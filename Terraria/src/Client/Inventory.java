@@ -46,6 +46,17 @@ public class Inventory {
 		return -1;
 	}
 	
+	private boolean isInInventory(Block block) {
+		for(int i = 0; i < slots.length; i++) {
+			for(int k = 0; k < slots[i].length; k++) {
+				if(block.equals(slots[i][k].getBlock())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	public int getXFromID() {
 		return (firstOpenSlot() % getWidth()) * slotLength + (10 * (firstOpenSlot() % getWidth())) + (slotLength - 16)/2 + 20;
 	}
@@ -54,9 +65,13 @@ public class Inventory {
 		return firstOpenSlot()/getWidth() * slotLength + (10 * (firstOpenSlot()/getWidth())) + (slotLength - 16)/2 + 20;
 	}
 	
-	public void pickUpItem(Block block) {
+	public void pickUpItem(Block block, int amount) {
 		System.out.println(firstOpenSlot());
-		getSlot(firstOpenSlot()).setBlock(block);
+		if(isInInventory(block)) {
+			getSlot(block).setObjectAmount(getSlot(block).getObjectAmount() + amount);
+		}else {
+			getSlot(firstOpenSlot()).setBlock(block, amount);
+		}
 	}
 	
 	public void render(Graphics g) {
@@ -79,6 +94,17 @@ public class Inventory {
 		for(int i = 0; i < slots.length; i++) {
 			for(int k = 0; k < slots[i].length; k++) {
 				if(slots[i][k].getID() == ID) {
+					return slots[i][k];
+				}
+			}
+		}
+		return null;
+	}
+	
+	private Slot getSlot(Block block) {
+		for(int i = 0; i < slots.length; i++) {
+			for(int k = 0; k < slots[i].length; k++) {
+				if(slots[i][k].getBlock().equals(block)) {
 					return slots[i][k];
 				}
 			}

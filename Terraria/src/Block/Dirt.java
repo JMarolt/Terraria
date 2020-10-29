@@ -10,5 +10,9 @@ public class Dirt extends Block{
 		this.setTile(tile);
 		this.setTexture(new Texture("src/renderer/dirt.png", tile.getX(), tile.getY()));
 	}
+	
+	public Dirt(int x, int y) {
+		this.setTexture(new Texture("src/renderer/dirt.png", x, y));
+	}
 
 }

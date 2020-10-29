@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import Block.Air;
+import Block.Dirt;
 import Block.Stone;
 import Renderer.Panel;
 import World.World;
@@ -85,7 +86,11 @@ public class Terraria{
 					inv.close();
 					break;
 				case KeyEvent.VK_5:
-					inv.pickUpItem(new Stone(inv.getXFromID(), inv.getYFromID()));
+					inv.pickUpItem(new Stone(inv.getXFromID(), inv.getYFromID()), 1);
+					break;
+				case KeyEvent.VK_3:
+					inv.pickUpItem(new Dirt(inv.getXFromID(), inv.getYFromID()), 1);
+					break;
 			}
 		}
 	}

@@ -15,6 +15,7 @@ public class Slot {
 	private boolean isHotbar;
 	private int x, y;
 	private int slotLength;
+	private int objectAmount;
 	
 	public Slot(Inventory in, int ID, Block block) {
 		this.in = in;
@@ -29,12 +30,13 @@ public class Slot {
 		Graphics2D g2d = (Graphics2D)g;
 		//background
 		g2d.setColor(new Color(25, 121, 169));
-		if(in.isOpen()) {
-			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-		}else {
-			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-		}
+//		if(in.isOpen()) {
+//			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+//		}else {
+//			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+//		}
 		g.fillRoundRect(x, y, slotLength, slotLength, 75, 75);
+		g.drawString("" + ID, x, y);
 		if(block != null)
 		block.draw(g);
 	}
@@ -57,6 +59,11 @@ public class Slot {
 
 	public void setBlock(Block block) {
 		this.block = block;
+	}
+	
+	public void setBlock(Block block, int amount) {
+		this.block = block;
+		this.objectAmount += amount;
 	}
 
 	public boolean isHotbar() {
@@ -89,6 +96,14 @@ public class Slot {
 
 	public void setSlotLength(int slotLength) {
 		this.slotLength = slotLength;
+	}
+
+	public int getObjectAmount() {
+		return objectAmount;
+	}
+
+	public void setObjectAmount(int objectAmount) {
+		this.objectAmount = objectAmount;
 	}
 	
 }
