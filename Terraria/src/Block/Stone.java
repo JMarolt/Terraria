@@ -11,4 +11,8 @@ public class Stone extends Block{
 		this.setTexture(new Texture("src/renderer/stone.png", tile.getX(), tile.getY()));
 	}
 	
+	public Stone(int x, int y) {
+		this.setTexture(new Texture("src/renderer/stone.png", x, y));
+	}
+	
 }
