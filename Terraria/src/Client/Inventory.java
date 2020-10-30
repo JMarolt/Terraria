@@ -13,6 +13,7 @@ public class Inventory {
 	private boolean isOpen;
 	private int width, height;
 	private int slotLength = 72;
+	private int slot = 0;
 	
 	//Player player
 	public Inventory(int width, int height) {
@@ -34,12 +35,31 @@ public class Inventory {
 				}
 			}
 		}
+		currentSlot = slots[slot][0];
+		currentSlot.setSelected(true);
 	}
 	
 	public void update() {
 		for(int i = 0; i < width*height; i++) {
 			if(getSlot(i) != null) {
 				getSlot(i).update();
+			}
+		}
+		updateSlectedSlot();
+	}
+	
+	private void updateSlectedSlot() {
+		if(slot > 9) {
+			slot = 0;
+		}
+		if(slot < 0) {
+			slot = 9;
+		}
+		currentSlot = slots[slot][0];
+		currentSlot.setSelected(true);
+		for(int i = 0; i < 10; i++) {
+			if(i != slot && slots[i][0].isSelected()) {
+				slots[i][0].setSelected(false);
 			}
 		}
 	}
@@ -169,6 +189,22 @@ public class Inventory {
 
 	public void setSlotLength(int slotLength) {
 		this.slotLength = slotLength;
+	}
+
+	public int getSlot() {
+		return slot;
+	}
+
+	public void setSlot(int slot) {
+		this.slot = slot;
+	}
+
+	public Slot getCurrentSlot() {
+		return currentSlot;
+	}
+
+	public void setCurrentSlot(Slot currentSlot) {
+		this.currentSlot = currentSlot;
 	}
 	
 }

@@ -17,6 +17,9 @@ public class Slot {
 	private int slotLength;
 	private int objectAmount = 0;
 	private int blockX, blockY;
+	private Color notSelected;
+	private Color selected;
+	private boolean isSelected;
 	
 	public Slot(Inventory in, int ID, Block block) {
 		this.in = in;
@@ -25,6 +28,8 @@ public class Slot {
 		slotLength = in.getSlotLength();
 		x = (ID % in.getWidth()) * slotLength + (10 * (ID % in.getWidth())) + 20;
 		y = ID/in.getWidth() * slotLength + (10 * (ID/in.getWidth())) + 20;
+		notSelected = new Color(25, 121, 169);
+		selected = new Color(255, 215, 0);
 	}
 	
 	public void update() {
@@ -39,7 +44,11 @@ public class Slot {
 	public void render(Graphics g) {
 		Graphics2D g2d = (Graphics2D)g;
 		//background
-		g2d.setColor(new Color(25, 121, 169));
+		if(isSelected) {
+			g2d.setColor(selected);
+		}else {
+			g2d.setColor(notSelected);
+		}
 //		if(in.isOpen()) {
 //			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 //		}else {
@@ -124,6 +133,14 @@ public class Slot {
 
 	public void setObjectAmount(int objectAmount) {
 		this.objectAmount = objectAmount;
+	}
+
+	public boolean isSelected() {
+		return isSelected;
+	}
+
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
 	}
 	
 }
