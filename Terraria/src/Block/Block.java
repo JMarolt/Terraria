@@ -15,7 +15,8 @@ public class Block {
 	private boolean isMinable;
 	private boolean isAir;
 	private int x, y;
-	private final int STACK_MAX = 999;
+	private int maxStack;
+	private int blockID;
 	
 	public Block() {
 		
@@ -30,6 +31,22 @@ public class Block {
 		this.tile = tile;
 	}
 	
+	public int getMaxStack() {
+		return maxStack;
+	}
+
+	public void setMaxStack(int maxStack) {
+		this.maxStack = maxStack;
+	}
+
+	public int getBlockID() {
+		return blockID;
+	}
+	
+	public void setBlockID(int ID) {
+		this.blockID = ID;
+	}
+
 	public void draw(Graphics g) {
 		this.texture.draw(g);
 	}
@@ -96,6 +113,7 @@ public class Block {
 
 	public void setX(int x) {
 		this.x = x;
+		this.texture.setX(x);
 	}
 
 	public int getY() {
@@ -104,6 +122,7 @@ public class Block {
 
 	public void setY(int y) {
 		this.y = y;
+		this.texture.setY(y);
 	}
 	
 }

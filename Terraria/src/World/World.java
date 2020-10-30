@@ -62,7 +62,7 @@ public class World {
 				}
 			}
 		}
-		noiseOres(40, 50);
+		//noiseOres(40, 50);
 	}
 	
 	private int surfaceNoise(int min, int max) {

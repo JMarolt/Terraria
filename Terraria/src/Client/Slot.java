@@ -15,7 +15,8 @@ public class Slot {
 	private boolean isHotbar;
 	private int x, y;
 	private int slotLength;
-	private int objectAmount;
+	private int objectAmount = 0;
+	private int blockX, blockY;
 	
 	public Slot(Inventory in, int ID, Block block) {
 		this.in = in;
@@ -24,6 +25,15 @@ public class Slot {
 		slotLength = in.getSlotLength();
 		x = (ID % in.getWidth()) * slotLength + (10 * (ID % in.getWidth())) + 20;
 		y = ID/in.getWidth() * slotLength + (10 * (ID/in.getWidth())) + 20;
+	}
+	
+	public void update() {
+		if(block != null) {
+			blockX = (in.firstOpenSlot() % in.getWidth()) * slotLength + (10 * (in.firstOpenSlot() % in.getWidth())) + (slotLength - 16)/2 + 20;
+			blockY = in.firstOpenSlot()/in.getWidth() * slotLength + (10 * (in.firstOpenSlot()/in.getWidth())) + (slotLength - 16)/2 + 20;
+			block.setX(blockX);
+			block.setY(blockY);
+		}
 	}
 	
 	public void render(Graphics g) {
@@ -37,8 +47,16 @@ public class Slot {
 //		}
 		g.fillRoundRect(x, y, slotLength, slotLength, 75, 75);
 		g.drawString("" + ID, x, y);
-		if(block != null)
-		block.draw(g);
+		if(block != null) {
+			block.draw(g);
+			drawItemAmount(g);
+		}
+	}
+	
+	private void drawItemAmount(Graphics g) {
+		Graphics2D g2d = (Graphics2D)g;
+		g2d.setColor(Color.black);
+		g.drawString("" + objectAmount, x + ((2*slotLength)/5), y + ((4*slotLength)/5));
 	}
 	
 	public boolean isOccupied() {
@@ -59,6 +77,8 @@ public class Slot {
 
 	public void setBlock(Block block) {
 		this.block = block;
+		setX((in.firstOpenSlot() % in.getWidth()) * slotLength + (10 * (in.firstOpenSlot() % in.getWidth())) + (slotLength - 16)/2 + 20);
+		setY(in.firstOpenSlot()/in.getWidth() * slotLength + (10 * (in.firstOpenSlot()/in.getWidth())) + (slotLength - 16)/2 + 20);
 	}
 	
 	public void setBlock(Block block, int amount) {

@@ -22,9 +22,10 @@ public class Inventory {
 	}
 	
 	public void init() {
+		int j = 0;
 		slots = new Slot[width][height];
-		for(int i = 0; i < slots.length; i++) {
-			for(int k = 0; k < slots[i].length; k++) {
+		for(int i = 0; i < width; i++) {
+			for(int k = 0; k < height; k++) {
 				slots[i][k] = new Slot(this, i + (k * 9), null);
 				if(i == 0) {
 					slots[i][k].setHotbar(true);
@@ -35,12 +36,25 @@ public class Inventory {
 		}
 	}
 	
+	public void update() {
+		for(int i = 0; i < width*height; i++) {
+			if(getSlot(i) != null) {
+				getSlot(i).update();
+			}
+		}
+	}
+	
+	public void test() {
+		//System.out.println(getSlot(9).isOccupied());
+		System.out.println(slots[9][4].getX());
+	}
+	
 	public int firstOpenSlot() {
-		for(int i = 0; i < slots.length; i++) {
-			for(int k = 0; k < slots[i].length; k++) {
-				if(!slots[i][k].isOccupied()) {
-					return slots[i][k].getID();
-				}
+		for(int i = 0; i < width*height; i++) {
+			if(!getSlot(i).isOccupied()) {
+				return i;
+			}else {
+				continue;
 			}
 		}
 		return -1;
@@ -48,9 +62,11 @@ public class Inventory {
 	
 	private boolean isInInventory(Block block) {
 		for(int i = 0; i < slots.length; i++) {
-			for(int k = 0; k < slots[i].length; k++) {
-				if(block.equals(slots[i][k].getBlock())) {
-					return true;
+			for(int k = 0; k < slots[0].length; k++) {
+				if(slots[i][k].getBlock() != null) {
+					if(block.getClass().equals(slots[i][k].getBlock().getClass())) {
+						return true;
+					}
 				}
 			}
 		}
@@ -66,7 +82,6 @@ public class Inventory {
 	}
 	
 	public void pickUpItem(Block block, int amount) {
-		System.out.println(firstOpenSlot());
 		if(isInInventory(block)) {
 			getSlot(block).setObjectAmount(getSlot(block).getObjectAmount() + amount);
 		}else {
@@ -104,7 +119,7 @@ public class Inventory {
 	private Slot getSlot(Block block) {
 		for(int i = 0; i < slots.length; i++) {
 			for(int k = 0; k < slots[i].length; k++) {
-				if(slots[i][k].getBlock().equals(block)) {
+				if(slots[i][k].getBlock() != null && slots[i][k].getBlock().getClass().equals(block.getClass())) {
 					return slots[i][k];
 				}
 			}

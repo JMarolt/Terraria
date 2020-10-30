@@ -32,6 +32,7 @@ public class Terraria{
 			if(world.isRunning()) {
 				try {
 					world.update();
+					inv.update();
 					Thread.sleep((long)(1000/FPS));
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -41,7 +42,7 @@ public class Terraria{
 	}
 	
 	private static void init() {
-		window = new Window(1920, 1200, true);
+		window = new Window(1920, 900, true);
 		panel = new Panel();
 		window.init();
 		world = new World(120, 75);
@@ -62,8 +63,12 @@ public class Terraria{
 		if(Window.ML.mousePressed) {
 			switch(Window.ML.mouseButton) {
 				case MouseEvent.BUTTON1:
-					if(!inv.isOpen())
-					Terraria.world.mineBlock(Window.ML.x, Window.ML.y, new Air(Terraria.world.tiles[Window.ML.x/16][Window.ML.y/16]));
+					if(!inv.isOpen()) {
+						if(!Terraria.world.tiles[Window.ML.x/16][Window.ML.y/16].getBlock().isAir()) {
+							inv.pickUpItem(Terraria.world.tiles[Window.ML.x/16][Window.ML.y/16].getBlock(), 1);
+							Terraria.world.mineBlock(Window.ML.x, Window.ML.y, new Air(Terraria.world.tiles[Window.ML.x/16][Window.ML.y/16]));
+						}
+					}
 					break;
 				case MouseEvent.BUTTON3:
 					if(!inv.isOpen())
@@ -85,11 +90,14 @@ public class Terraria{
 				case KeyEvent.VK_ESCAPE:
 					inv.close();
 					break;
-				case KeyEvent.VK_5:
+				case KeyEvent.VK_5:					
 					inv.pickUpItem(new Stone(inv.getXFromID(), inv.getYFromID()), 1);
 					break;
 				case KeyEvent.VK_3:
 					inv.pickUpItem(new Dirt(inv.getXFromID(), inv.getYFromID()), 1);
+					break;
+				case KeyEvent.VK_F:
+					inv.test();
 					break;
 			}
 		}
