@@ -27,6 +27,7 @@ public class Inventory {
 		slots = new Slot[width][height];
 		for(int i = 0; i < width; i++) {
 			for(int k = 0; k < height; k++) {
+				System.out.println(i + (k*9));
 				slots[i][k] = new Slot(this, i + (k * 9), null);
 				if(i == 0) {
 					slots[i][k].setHotbar(true);
@@ -66,7 +67,11 @@ public class Inventory {
 	
 	public void test() {
 		//System.out.println(getSlot(9).isOccupied());
-		System.out.println(slots[9][4].getX());
+		//System.out.println(slots[9][4].getX());
+//		System.out.println("X: " + currentSlot.getBlock().getX());
+//		System.out.println("Y: " + currentSlot.getBlock().getY());
+		System.out.println(currentSlot.getBlock().getTexture().getX());
+		System.out.println(currentSlot.getBlock().getTexture().getY());
 	}
 	
 	public int firstOpenSlot() {

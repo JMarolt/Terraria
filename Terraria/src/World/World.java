@@ -62,7 +62,7 @@ public class World {
 				}
 			}
 		}
-		//noiseOres(40, 50);
+		noiseOres(40, 50);
 	}
 	
 	private int surfaceNoise(int min, int max) {
@@ -365,7 +365,11 @@ public class World {
 
 	public void placeBlock(int x, int y, Block block) {
 		if (tiles[x / 16][y / 16].getBlock().isAir()) {
+			block.setX(tiles[x/16][y/16].getX());
+			block.setY(tiles[x/16][y/16].getY());
 			tiles[x / 16][y / 16].setBlock(block);
+			System.out.println(tiles[x/16][y/16].getBlock().getTexture().getFileName());
+			Client.Terraria.inv.getCurrentSlot().setObjectAmount(Client.Terraria.inv.getCurrentSlot().getObjectAmount()-1);
 		}
 	}
 	

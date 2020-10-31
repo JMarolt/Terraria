@@ -72,9 +72,8 @@ public class Terraria{
 					break;
 				case MouseEvent.BUTTON3:
 					if(!inv.isOpen()) {
-						if(!world.tiles[Window.ML.x/16][Window.ML.y/16].isOccupied()) {
+						if(!world.tiles[Window.ML.x/16][Window.ML.y/16].isOccupied() && inv.getCurrentSlot().getBlock() != null) {
 							Terraria.world.placeBlock(Window.ML.x, Window.ML.y, inv.getCurrentSlot().getBlock());
-							inv.getCurrentSlot().setObjectAmount(inv.getCurrentSlot().getObjectAmount()-1);
 						}
 					}
 					break;

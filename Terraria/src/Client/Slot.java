@@ -34,10 +34,15 @@ public class Slot {
 	
 	public void update() {
 		if(block != null) {
-			blockX = (in.firstOpenSlot() % in.getWidth()) * slotLength + (10 * (in.firstOpenSlot() % in.getWidth())) + (slotLength - 16)/2 + 20;
-			blockY = in.firstOpenSlot()/in.getWidth() * slotLength + (10 * (in.firstOpenSlot()/in.getWidth())) + (slotLength - 16)/2 + 20;
-			block.setX(blockX);
-			block.setY(blockY);
+//			blockX = (in.firstOpenSlot() % in.getWidth()) * slotLength + (10 * (in.firstOpenSlot() % in.getWidth())) + (slotLength - 16)/2 + 20;
+//			blockY = in.firstOpenSlot()/in.getWidth() * slotLength + (10 * (in.firstOpenSlot()/in.getWidth())) + (slotLength - 16)/2 + 20;
+//			block.setX(blockX);
+//			block.setY(blockY);
+			block.setX(this.x + ((in.getSlotLength()-16)/2));
+			block.setY(this.y + ((in.getSlotLength()-16)/2));
+		}
+		if(objectAmount == 0) {
+			block = null;
 		}
 	}
 	
