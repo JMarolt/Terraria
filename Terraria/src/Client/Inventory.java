@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import Block.Block;
-import Item.Item;
 
 public class Inventory {
 
@@ -23,12 +22,10 @@ public class Inventory {
 	}
 	
 	public void init() {
-		int j = 0;
 		slots = new Slot[width][height];
 		for(int i = 0; i < width; i++) {
 			for(int k = 0; k < height; k++) {
-				System.out.println(i + (k*9));
-				slots[i][k] = new Slot(this, i + (k * 9), null);
+				slots[i][k] = new Slot(this, i + (k * width), null);
 				if(i == 0) {
 					slots[i][k].setHotbar(true);
 				}else {
@@ -42,11 +39,10 @@ public class Inventory {
 	
 	public void update() {
 		for(int i = 0; i < width*height; i++) {
-			if(getSlot(i) != null) {
-				getSlot(i).update();
-			}
+			getSlot(i).update();
 		}
 		updateSlectedSlot();
+		swap();
 	}
 	
 	private void updateSlectedSlot() {
@@ -66,12 +62,7 @@ public class Inventory {
 	}
 	
 	public void test() {
-		//System.out.println(getSlot(9).isOccupied());
-		//System.out.println(slots[9][4].getX());
-//		System.out.println("X: " + currentSlot.getBlock().getX());
-//		System.out.println("Y: " + currentSlot.getBlock().getY());
-		System.out.println(currentSlot.getBlock().getTexture().getX());
-		System.out.println(currentSlot.getBlock().getTexture().getY());
+
 	}
 	
 	public int firstOpenSlot() {
@@ -104,6 +95,43 @@ public class Inventory {
 	
 	public int getYFromID() {
 		return firstOpenSlot()/getWidth() * slotLength + (10 * (firstOpenSlot()/getWidth())) + (slotLength - 16)/2 + 20;
+	}
+	
+	private void swap() {
+		if(mousePressedOnSlot()) {
+			
+		}
+	}
+	
+	private boolean mousePressedOnSlot() {
+		for(int i = 0; i < width*height; i++) {
+			if(getSlot(i).mouseIsOn() && Window.ML.mouseDragged) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private Slot mouseReleasedOnSlot() {
+		for(int i = 0; i < width*height; i++) {
+			if(getSlot(i).mouseIsOn() && Window.ML.mouseReleased) {
+				return getSlot(i);
+			}
+		}
+		return null;
+	}
+	
+	private Slot isOnOtherSlots(int num) {
+		for(int i = 0; i < width*height; i++) {
+			if(i == num) {
+				continue;
+			}else {
+				if(getSlot(i).mouseIsOn()) {
+					return getSlot(i);
+				}
+			}
+		}
+		return null;
 	}
 	
 	public void pickUpItem(Block block, int amount) {

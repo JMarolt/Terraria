@@ -74,6 +74,8 @@ public class Terraria{
 					if(!inv.isOpen()) {
 						if(!world.tiles[Window.ML.x/16][Window.ML.y/16].isOccupied() && inv.getCurrentSlot().getBlock() != null) {
 							Terraria.world.placeBlock(Window.ML.x, Window.ML.y, inv.getCurrentSlot().getBlock());
+							System.out.println();
+							//Terraria.world.placeBlock(Window.ML.x, Window.ML.y, new Stone(world.tiles[Window.ML.x/16][Window.ML.y/16]));
 						}
 					}
 					break;

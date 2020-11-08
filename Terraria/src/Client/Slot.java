@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.RoundRectangle2D;
 
 import Block.Block;
 
@@ -20,6 +21,7 @@ public class Slot {
 	private Color notSelected;
 	private Color selected;
 	private boolean isSelected;
+	private RoundRectangle2D.Double rectangle;
 	
 	public Slot(Inventory in, int ID, Block block) {
 		this.in = in;
@@ -30,14 +32,12 @@ public class Slot {
 		y = ID/in.getWidth() * slotLength + (10 * (ID/in.getWidth())) + 20;
 		notSelected = new Color(25, 121, 169);
 		selected = new Color(255, 215, 0);
+		rectangle = new RoundRectangle2D.Double();
+		rectangle.setRoundRect(x, y, slotLength, slotLength, 75, 75);
 	}
 	
 	public void update() {
 		if(block != null) {
-//			blockX = (in.firstOpenSlot() % in.getWidth()) * slotLength + (10 * (in.firstOpenSlot() % in.getWidth())) + (slotLength - 16)/2 + 20;
-//			blockY = in.firstOpenSlot()/in.getWidth() * slotLength + (10 * (in.firstOpenSlot()/in.getWidth())) + (slotLength - 16)/2 + 20;
-//			block.setX(blockX);
-//			block.setY(blockY);
 			block.setX(this.x + ((in.getSlotLength()-16)/2));
 			block.setY(this.y + ((in.getSlotLength()-16)/2));
 		}
@@ -60,10 +60,18 @@ public class Slot {
 //			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 //		}
 		g.fillRoundRect(x, y, slotLength, slotLength, 75, 75);
-		g.drawString("" + ID, x, y);
+		g.drawString("" + (ID+1), x, y);
 		if(block != null) {
 			block.draw(g);
 			drawItemAmount(g);
+		}
+	}
+	
+	public boolean mouseIsOn() {
+		if(rectangle.contains(Window.ML.x, Window.ML.y)) {
+			return true;
+		}else {
+			return false;
 		}
 	}
 	
