@@ -17,7 +17,7 @@ public class Tile {
 	}
 
 	public boolean isOccupied() {
-		return this.block != null;
+		return !this.block.isAir();
 	}
 	
 	public int getX() {
@@ -44,6 +44,7 @@ public class Tile {
 
 	public void setBlock(Block block) {
 		this.block = block;
+		
 	}
 
 	public Block getBackground() {

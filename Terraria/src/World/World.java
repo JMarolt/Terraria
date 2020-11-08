@@ -1,6 +1,7 @@
 package World;
 
 import java.awt.Graphics;
+import java.awt.geom.AffineTransform;
 import java.util.HashMap;
 
 import Block.Air;
@@ -364,8 +365,13 @@ public class World {
 	}
 
 	public void placeBlock(int x, int y, Block block) {
-		if (tiles[x / 16][y / 16].getBlock().isAir()) {
-			tiles[x / 16][y / 16].setBlock(block);
+		if (tiles[x/16][y/16].getBlock().isAir()) {
+			block.setX(tiles[x/16][y/16].getX());
+			block.setY(tiles[x/16][y/16].getY());
+			tiles[x/16][y/16].setBlock(block);
+			tiles[x/16][y/16].getBlock().getTexture().setAt(AffineTransform.getTranslateInstance(x, y));
+			System.out.println(tiles[x/16][y/16].getBlock().getTexture().getImage().getHeight());
+			Client.Terraria.inv.getCurrentSlot().setObjectAmount(Client.Terraria.inv.getCurrentSlot().getObjectAmount()-1);
 		}
 	}
 	

@@ -4,8 +4,10 @@ import java.awt.MouseInfo;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
-public class MouseTracker extends MouseAdapter implements MouseMotionListener{
+public class MouseTracker extends MouseAdapter implements MouseMotionListener, MouseWheelListener{
 
 	public boolean mousePressed = false;
 	public boolean mouseDragged = false;
@@ -16,10 +18,12 @@ public class MouseTracker extends MouseAdapter implements MouseMotionListener{
 	private int pressedX = 0;
 	private int pressedY = 0;
 	public float dx = -1.0f, dy = -1.0f;
+	private int wheelRotations = 0;
 	
 	public void update() {
 		x = MouseInfo.getPointerInfo().getLocation().x;
 		y = MouseInfo.getPointerInfo().getLocation().y;
+		wheelRotations = 0;
 	}
 	
 	@Override
@@ -56,6 +60,11 @@ public class MouseTracker extends MouseAdapter implements MouseMotionListener{
 		this.dx = mouseEvent.getX() - this.x;
 		this.dy = mouseEvent.getY() - this.y;
 	}
+	
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		wheelRotations = e.getWheelRotation();
+	}
 
 	public int getPressedX() {
 		return pressedX;
@@ -63,6 +72,14 @@ public class MouseTracker extends MouseAdapter implements MouseMotionListener{
 
 	public int getPressedY() {
 		return pressedY;
+	}
+
+	public int getWheelRotations() {
+		return wheelRotations;
+	}
+
+	public void setWheelRotations(int wheelRotations) {
+		this.wheelRotations = wheelRotations;
 	}
 	
 }

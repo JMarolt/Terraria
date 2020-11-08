@@ -146,17 +146,20 @@ public class Texture {
 	}
 
 	public void setX(int x) {
-		at.translate(x, 0);
+		int tx = x - (int)at.getTranslateX();
+		at.translate(tx, 0);
 		this.x = x;
 	}
 
 	public int getY() {
+		System.out.println("Y: " + at.getTranslateY());
 		return y;
 	}
 
 	public void setY(int y) {
-		at.translate(0, y);
-		this.y = this.y + y;
+		int ty = y - (int)at.getTranslateY();
+		at.translate(0, ty);
+		this.y = y;
 	}
 
 	public AffineTransform getAt() {

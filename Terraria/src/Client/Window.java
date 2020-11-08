@@ -42,6 +42,7 @@ public class Window extends JFrame {
 		this.addKeyListener(KL);
 		this.addMouseListener(ML);
 		this.addMouseMotionListener(ML);
+		this.addMouseWheelListener(ML);
 		this.add(Terraria.panel);
 		this.pack();
 		this.setVisible(true);
@@ -52,6 +53,7 @@ public class Window extends JFrame {
 	}
 	
 	public void update() {
+		Terraria.inv.setSlot(Terraria.inv.getSlot() + ML.getWheelRotations());
 		Terraria.panel.repaint();
 	}
 	
